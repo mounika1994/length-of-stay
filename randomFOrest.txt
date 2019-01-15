@@ -1,0 +1,44 @@
+### random forest model##
+now comparision of the two alg
+1.C50
+2.randomForest
+
+library(caret)
+
+##here two dependecies come one is that we need to install the "lattice" package
+another is dependencies is that we require the "ggplot2" also
+
+library(rattle)  ## a free graphical interface for datamining with R
+
+library(randomForest)
+
+cad_data<-read.csv(file.choose(),na.strings=c("","NA"))
+
+set.seed(2048)
+randomdata<-createDataPartition(y=cad_data$los,p=0.75,list=FLASE)
+train<-cad_data[randomdata,]
+test<-cad_data[-randomdata,]
+model<-randomForest(los~.,data=train)
+model
+plot(model)
+
+
+
+confusionMatrix(predict(model,newdata=train),train$los)
+
+
+
+
+confusionMatrix(predict(model,newdata=test),test$los)
+
+varImpPlot(model)
+
+
+##after do the C50 then we find the both accuracy results for that follow the syntax##
+
+
+testpred<-c(factor(predict(modelC5a,newdata=cad_test)),factor(predict(modelFit,newdata=test)) )
+testact<-c(cad_test$los,test$los)
+
+confusionMatrix(testpred,testact)
+
